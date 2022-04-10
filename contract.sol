@@ -5,6 +5,12 @@ contract Farmville {
   
     uint vendors_count = 0;
 
+    struct itemInfo {
+        // string name;
+        uint price;
+        uint stock;
+        
+    }
     struct VendorInfo {  
         bool member;
         uint wal_balance;
@@ -12,7 +18,7 @@ contract Farmville {
         uint market_loc;
         bool safety_comp;
         bool loc_comp;
-        mapping(string => uint) items;
+        mapping(string => itemInfo) items;
     }
 
     struct CustomerInfo {                  
@@ -58,8 +64,12 @@ contract Farmville {
 
     }
 
-    function addItem(string memory item_name, uint stock) locComp healthComp isMember public{
-        vendors[msg.sender].items[item_name] = stock;
+    function addItem(string memory item_name, uint price, uint stock) locComp healthComp isMember public{
+        itemInfo memory temp_item;
+        // temp_item.name = item_name;
+        temp_item.price = price;
+        temp_item.stock = stock;
+        vendors[msg.sender].items[item_name] = temp_item;
     }
 
     function updateLocComp(address vendor, bool l_comp) onlyChair public{
@@ -68,5 +78,33 @@ contract Farmville {
 
     function updateHealthComplaince(address vendor, bool s_comp) onlyChair public{
         vendors[vendor].safety_comp = s_comp;
+    }
+
+    function registerCustomer(string memory cust_name) public payable{
+        customers[msg.sender].name = cust_name;
+    }
+    
+    function buyProduce(address vendor, string memory item_name , uint nums) public payable{
+        if((vendors[vendor].safety_comp == false) || (nums>vendors[vendor].items[item_name].stock)) {revert();}
+        uint amt;
+        amt = vendors[vendor].items[item_name].price * nums;
+        
+        vendors[vendor].wal_balance+=amt;
+
+        msg.sender.transfer(amt);
+    }
+
+    function viewRating(address vendor) view public returns(uint) {
+        return vendors[vendor].rating;
+    }
+
+    function giveRating(address vendor, uint vendor_rating) public payable{
+        vendors[vendor].rating = vendor_rating;
+    }
+
+    function viewVendor(address vendor) view public returns(string memory) {
+        string memory output="";
+        output = string(abi.encodePacked("[", vendors[vendor].market_loc, ",", vendors[vendor].rating, ",", vendors[vendor].safety_comp, ",", vendors[vendor].loc_comp, "]"));
+        return output;
     }
 }
