@@ -29,6 +29,14 @@ contract Farmville {
     mapping(address => VendorInfo) vendors;  
     mapping(address => CustomerInfo) customers;  
     
+    enum Phase {Init, Regs, Buy}  
+    Phase public state = Phase.Init;
+
+    modifier validPhase(Phase reqPhase) 
+    { require(state == reqPhase); 
+      _; 
+    } 
+
     modifier onlyChair(){
         require(msg.sender == chairperson);
         _;
@@ -50,9 +58,17 @@ contract Farmville {
     }
     constructor() public {
         chairperson = msg.sender;
+        state = Phase.Regs;
     }
     
-    function registerVendor (address vendor, bool l_comp, bool s_comp) onlyChair public payable {
+    function changeState(Phase x) onlyChair public {
+        
+        require (x > state );
+       
+        state = x;
+     }
+
+    function registerVendor (address vendor, bool l_comp, bool s_comp) onlyChair validPhase(Phase.Regs) public payable {
         if(vendors[vendor].member){revert();}
         vendors_count+=1;
         vendors[msg.sender].member = true;
@@ -84,7 +100,7 @@ contract Farmville {
         customers[msg.sender].name = cust_name;
     }
     
-    function buyProduce(address vendor, string memory item_name , uint nums) public payable{
+    function buyProduce(address vendor, string memory item_name , uint nums) validPhase(Phase.Buy) public payable{
         if((vendors[vendor].safety_comp == false) || (nums>vendors[vendor].items[item_name].stock)) {revert();}
         uint amt;
         amt = vendors[vendor].items[item_name].price * nums;
