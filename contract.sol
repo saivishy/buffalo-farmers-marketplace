@@ -1,6 +1,7 @@
 //SPDX-License-Identifier: UNLICENSED
 
 pragma solidity >=0.4.22 <=0.6.0;
+
 contract Farmville {
   
     uint vendors_count = 0;
@@ -71,12 +72,12 @@ contract Farmville {
     function registerVendor (address vendor, bool l_comp, bool s_comp) onlyChair validPhase(Phase.Regs) public payable {
         if(vendors[vendor].member){revert();}
         vendors_count+=1;
-        vendors[msg.sender].member = true;
-        vendors[msg.sender].wal_balance = 0;
-        vendors[msg.sender].loc_comp = l_comp;
-        vendors[msg.sender].safety_comp = s_comp;
-        vendors[msg.sender].rating = 0;
-        vendors[msg.sender].market_loc = vendors_count;
+        vendors[vendor].member = true;
+        vendors[vendor].wal_balance = 0;
+        vendors[vendor].loc_comp = l_comp;
+        vendors[vendor].safety_comp = s_comp;
+        vendors[vendor].rating = 0;
+        vendors[vendor].market_loc = vendors_count;
 
     }
 
@@ -110,17 +111,20 @@ contract Farmville {
         msg.sender.transfer(amt);
     }
 
-    function viewRating(address vendor) view public returns(uint) {
-        return vendors[vendor].rating;
-    }
 
     function giveRating(address vendor, uint vendor_rating) public payable{
         vendors[vendor].rating = vendor_rating;
     }
 
-    function viewVendor(address vendor) view public returns(string memory) {
-        string memory output="";
-        output = string(abi.encodePacked("[", vendors[vendor].market_loc, ",", vendors[vendor].rating, ",", vendors[vendor].safety_comp, ",", vendors[vendor].loc_comp, "]"));
-        return output;
+    function viewVendorRating(address vendor) view public returns(uint) {
+        return vendors[vendor].rating;
+    }
+
+    function viewVendorLocation(address vendor) view public returns(bool) {
+        return vendors[vendor].loc_comp;
+    }
+
+    function viewVendorSafety(address vendor) view public returns(bool) {
+        return vendors[vendor].safety_comp;
     }
 }
