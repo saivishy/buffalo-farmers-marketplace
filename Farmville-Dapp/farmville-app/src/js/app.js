@@ -1,7 +1,7 @@
 App = {
     web3: null,
     contracts: {},
-    address:'0x7B7BA36284887274824D79d7F8826e1b50C85F17',
+    address:'0x2f9355E3DE7E8Eb45f542ABC8da3D604626DB82E',
     network_id:3, // 5777 for local
     handler:null,
     value:1000000000000000000,
@@ -49,25 +49,25 @@ App = {
       return App.bindEvents();
     },  
   
-    bindEvents: function() {  
-  $(document).on('click', '#registervendor', function(){
-     App.populateAddress().then(r => App.handler = r[0]);
-     split_text = jQuery('#vendoraddr').val().split(',');
-     address = split_text[0];
-     l_comp = JSON.parse(split_text[1]);
-     s_comp = JSON.parse(split_text[2]);
-     // console.log(l_comp, s_comp);
-     App.handleregisterVendor(address, l_comp, s_comp);
-  });
+    bindEvents: function() {
+      $(document).on('click', '#registervendor', function(){
+        App.populateAddress().then(r => App.handler = r[0]);
+        split_text = jQuery('#vendoraddr').val().split(',');
+        address = split_text[0];
+        l_comp = JSON.parse(split_text[1]);
+        s_comp = JSON.parse(split_text[2]);
+        // console.log(l_comp, s_comp);
+        App.handleregisterVendor(address, l_comp, s_comp);
+      });
 
-  $(document).on('click', '#additem', function(){
-     App.populateAddress().then(r => App.handler = r[0]);
-     split_text = jQuery('#iname-stock').val().split(',');
-     item_name = split_text[0];
-     price = parseInt(split_text[1]);
-     stock = parseInt(split_text[2]);
-     App.handleaddItem(item_name, price, stock);
-  });
+      $(document).on('click', '#additem', function(){
+        App.populateAddress().then(r => App.handler = r[0]);
+        split_text = jQuery('#iname-stock').val().split(',');
+        item_name = split_text[0];
+        price = parseInt(split_text[1]);
+        stock = parseInt(split_text[2]);
+        App.handleaddItem(item_name, price, stock);
+      });
 
   $(document).on('click', '#buyproduce', function(){
      App.populateAddress().then(r => App.handler = r[0]);
@@ -84,9 +84,11 @@ App = {
 
   });
 
-
-
-
+  $(document).on('click', '#viewloccomp', function(){
+    App.populateAddress().then(r => App.handler = r[0]);
+    vaddr_lc = jQuery('#vendoraddr-lc').val()
+    App.handleviewVendorLocation(vaddr_lc);
+  });
 },
 
 populateAddress : async function(){
@@ -137,6 +139,14 @@ populateAddress : async function(){
           toastr.success("Successful");
       }})
     },
+
+    handleviewVendorLocation:function(vendor_address){
+      App.contracts.Farmville.methods.viewVendorLocation(vendor_address)
+      .call()
+      .then((r)=>{
+        jQuery('#counter_value').text(r)
+      })
+  },
 
   abi:[
   {
@@ -365,9 +375,9 @@ populateAddress : async function(){
   }
 ]
 
-  }
-  
-  $(function() {
+}
+
+$(function() {
     $(window).load(function() {
       App.init();
       toastr.options = {

@@ -4,12 +4,12 @@
  * make sure you copy the url from the website since the url may change between versions.
  * */
  body{
-     background: #eeeeee;
+     background: #D6DFC9;
  }
  .windowbox{
      padding:5%;
-     border:5px solid #eeeeee;
-     background: #fafafa
+     border:5px solid #768C54;
+     background: #D6DFC9
  }
  img{
      width:35%;
