@@ -1,7 +1,7 @@
 App = {
     web3: null,
     contracts: {},
-    address:'0x0f4fa1283390bE5b05B73dA2a8b05C58aab4d3D2',
+    address:'0x7B7BA36284887274824D79d7F8826e1b50C85F17',
     network_id:3, // 5777 for local
     handler:null,
     value:1000000000000000000,
@@ -50,9 +50,9 @@ App = {
     },  
   
     bindEvents: function() {  
-  $(document).on('click', '#initilaizeCounter', function(){
+  $(document).on('click', '#registervendor', function(){
      App.populateAddress().then(r => App.handler = r[0]);
-     split_text = jQuery('#Initialize').val().split(',');
+     split_text = jQuery('#vendoraddr').val().split(',');
      address = split_text[0];
      l_comp = JSON.parse(split_text[1]);
      s_comp = JSON.parse(split_text[2]);
@@ -60,13 +60,28 @@ App = {
      App.handleregisterVendor(address, l_comp, s_comp);
   });
 
-  $(document).on('click', '#incrementCounter', function(){
+  $(document).on('click', '#additem', function(){
      App.populateAddress().then(r => App.handler = r[0]);
-     split_text = jQuery('#Increment').val().split(',');
+     split_text = jQuery('#iname-stock').val().split(',');
      item_name = split_text[0];
      price = parseInt(split_text[1]);
      stock = parseInt(split_text[2]);
      App.handleaddItem(item_name, price, stock);
+  });
+
+  $(document).on('click', '#buyproduce', function(){
+     App.populateAddress().then(r => App.handler = r[0]);
+     App.handleregisterCustomer(jQuery('#custid').val());
+  });
+
+  $(document).on('click', '#registercust', function(){
+     App.populateAddress().then(r => App.handler = r[0]);
+     split_text = jQuery('#vaddr-iname-nums').val().split(',');
+     vendor_address = split_text[0];
+     it_name = parseInt(split_text[1]);
+     nums = parseInt(split_text[2]);
+     App.handlebuyProduce(vendor_address, it_name, nums);
+
   });
 
 
@@ -98,6 +113,28 @@ populateAddress : async function(){
       .on('receipt',(receipt)=>{
         if(receipt.status){
           toastr.success("Vendor "+ address + "is added");
+      }})
+    },
+
+  handleregisterCustomer:function(cust_name){
+      var option={from:App.handler} 
+      console.log(item_name, price, stock);
+      App.contracts.Farmville.methods.registerCustomer(cust_name)
+      .send(option)
+      .on('receipt',(receipt)=>{
+        if(receipt.status){
+          toastr.success("Customer "+ cust_name + "is added");
+      }})
+    },
+
+  handlebuyProduce:function(vendor_address, it_name, nums){
+      var option={from:App.handler} 
+      console.log(item_name, price, stock);
+      App.contracts.Farmville.methods.buyProduce(vendor_address, it_name, nums)
+      .send(option)
+      .on('receipt',(receipt)=>{
+        if(receipt.status){
+          toastr.success("Successful");
       }})
     },
 
