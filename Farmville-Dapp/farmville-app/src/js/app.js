@@ -1,7 +1,7 @@
 App = {
     web3: null,
     contracts: {},
-    address:'0x207EAe856D27B0B2bf802d3455286307FeceA8EA',
+    address:'0x0f4fa1283390bE5b05B73dA2a8b05C58aab4d3D2',
     network_id:3, // 5777 for local
     handler:null,
     value:1000000000000000000,
@@ -52,8 +52,23 @@ App = {
     bindEvents: function() {  
   $(document).on('click', '#initilaizeCounter', function(){
      App.populateAddress().then(r => App.handler = r[0]);
-     App.handleregisterVendor(jQuery('#Initialize').val());
+     split_text = jQuery('#Initialize').val().split(',');
+     address = split_text[0];
+     l_comp = JSON.parse(split_text[1]);
+     s_comp = JSON.parse(split_text[2]);
+     // console.log(l_comp, s_comp);
+     App.handleregisterVendor(address, l_comp, s_comp);
   });
+
+  $(document).on('click', '#incrementCounter', function(){
+     App.populateAddress().then(r => App.handler = r[0]);
+     split_text = jQuery('#Increment').val().split(',');
+     item_name = split_text[0];
+     price = parseInt(split_text[1]);
+     stock = parseInt(split_text[2]);
+     App.handleaddItem(item_name, price, stock);
+  });
+
 
 
 
@@ -64,17 +79,25 @@ populateAddress : async function(){
     return await ethereum.request({method : 'eth_requestAccounts'});
 },  
  
- handleregisterVendor:function(incrementValue){
-      if (incrementValue===''){
-        alert("Please enter a valid incrementing value.")
-        return false
-      }
+ handleregisterVendor:function(address, l_comp, s_comp){
       var option={from:App.handler} 
-      App.contracts.Farmville.methods.registerVendor(incrementValue, true, false)
+      // console.log(l_comp, s_comp);
+      App.contracts.Farmville.methods.registerVendor(address, l_comp, s_comp)
       .send(option)
       .on('receipt',(receipt)=>{
         if(receipt.status){
-          toastr.success("Counter is incremented by " + incrementValue);
+          toastr.success("Vendor "+ address + "is added");
+      }})
+    },
+
+  handleaddItem:function(item_name, price, stock){
+      var option={from:App.handler} 
+      console.log(item_name, price, stock);
+      App.contracts.Farmville.methods.addItem(item_name, price, stock)
+      .send(option)
+      .on('receipt',(receipt)=>{
+        if(receipt.status){
+          toastr.success("Vendor "+ address + "is added");
       }})
     },
 
