@@ -14,32 +14,48 @@
   <body>
       <div class='container'>
         <div class="text-center">
-
-          <h3 id='country-name'></h3>      
-          <div id='flagpic'></div>
+          <h2>Buffalo Farmer's MarketPlace</h2>      
+          <div>
+            <img src="css/southbuffalo.jpg" alt="Top View" width="790" height="auto"> 
+          </div>
         </div>
   
         <div class='row col-lg-12 text-center'>             
           <div class="col-lg-6 windowbox">
               <div class="form-group">
                   <label class="sr-only">Name</label>
-                  <input type="text" id="Initialize" placeholder="Initialize">
+                  <input type="text" id="vendoraddr" placeholder="Vendor Address">
                   <br>
-                  <button type="button" id="initilaizeCounter" class="btn btn-primary ">Initialize</button>
+                  <button type="button" id="registervendor" class="btn btn-primary ">Register Vendor</button>
               </div>
               <div class="form-group">
                   <label class="sr-only">Email</label>
-                  <input type="text" id="Increment" placeholder="Increment">
+                  <input type="text" id="iname-stock" placeholder="Item Name, Stock">
                   <br>
-                  <button type="button" id="incrementCounter"  class="btn btn-primary ">Increment</button>
+                  <button type="button" id="additem"  class="btn btn-primary ">Add Item</button>
               </div>
               
               <div class="form-group">
                 <label class="sr-only">Email</label>
-                <input type="number" class="form-control" id="Decrement" placeholder="Decrement">
+                <input type="text" id="vaddr-iname-nums" placeholder="VendorAddr, Item, Nums">
                 <br>
-                <button type="button" id="decrementCounter" class="btn btn-primary ">Decrement</button>
-            </div>
+                <button type="button" id="buyproduce" class="btn btn-primary ">Buy Produce</button>
+              </div>
+
+              <div class="form-group">
+                <label class="sr-only">Email</label>
+                <input type="text" id="custid" placeholder="CustomerAddr">
+                <br>
+                <button type="button" id="registercust" class="btn btn-primary ">Register Customer</button>
+              </div>
+              
+              <div class="form-group">
+                <label class="sr-only">Email</label>
+                <input type="text" id="iname-stock" placeholder="Item Name, Stock">
+                <br>
+                <button type="button" id="additem"  class="btn btn-primary ">Add Item</button>
+              </div>
+            
           </div>
           <div class="col-lg-6 windowbox">
               <div class="form-group ">
@@ -48,7 +64,18 @@
               </div>
           </div>
         </div>
+        <div> 
+          <center>
+            <img src="css/marketplacePotrait.jpeg" alt="MarketPlace" width="400" height="550">
+            <img src="css/farmer.jpeg" alt="Farmer with produce" width="1080" height="380"> 
+            <img src="css/marketplace.jpeg" alt="MarketPlacelandscape" width="1080" height="390"> 
+            <img src="css/maplesyrup.jpeg" alt="Maple syrup" width="auto" height="550"> 
+          </center>
+        </div>
+
       </div>
+
+
     </body>
     <script  src="js/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
