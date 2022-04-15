@@ -1,7 +1,7 @@
 App = {
     web3: null,
     contracts: {},
-    address:'0x2f9355E3DE7E8Eb45f542ABC8da3D604626DB82E',
+    address:'0x3b3e343604384011b65206db39aF01888FDf9FCb',
     network_id:3, // 5777 for local
     handler:null,
     value:1000000000000000000,
@@ -19,134 +19,157 @@ App = {
         App.web3 = new Web3(App.url);
       }
       ethereum.enable();  
-
-      $.getJSON('flagIndex.json',(id)=>{     
-        $.getJSON('flags.json',(d)=>{
-          var index = id;
-          for(var i in d[index]){
-            $('#flagpic').html("<img src='http://www.geognos.com/api/en/countries/flag/"+i.toUpperCase()+".png'/>");
-            $('#country-name').html(d[index][i]) 
-          }
-          
-        })
-      })
-         
       return App.initContract();  
     },
 
     initContract: function() { 
       App.contracts.Farmville = new App.web3.eth.Contract(App.abi,App.address, {});
-      // console.log(random)
-      $.getJSON('flags.json',(d)=>{
-        var index = Math.floor((Math.random() * 243) + 1);
-        
-        for(var i in d[index]){
-          $('#flag').addClass('flag-'+i)
-          $('#country-name').html(d[index][i])
-        }
-        
-      })     
       return App.bindEvents();
     },  
   
     bindEvents: function() {
       $(document).on('click', '#registervendor', function(){
         App.populateAddress().then(r => App.handler = r[0]);
-        split_text = jQuery('#vendoraddr').val().split(',');
-        address = split_text[0];
-        l_comp = JSON.parse(split_text[1]);
-        s_comp = JSON.parse(split_text[2]);
+        name = jQuery('#vendorname').val()
+        address = jQuery('#vendoraddr').val()
+        l_comp = JSON.parse($('input[name="h_comp"]:checked').val());
+        s_comp = JSON.parse($('input[name="l_comp"]:checked').val());
         // console.log(l_comp, s_comp);
-        App.handleregisterVendor(address, l_comp, s_comp);
+        App.handleregisterVendor(name, address, l_comp, s_comp);
+      });
+
+      $(document).on('click', '#verify-loccomp', function(){
+        App.populateAddress().then(r => App.handler = r[0]);
+        vaddr_lc = jQuery('#vaddr-comp-check').val()
+        App.handleviewVendorLocation(vaddr_lc);
+      });
+
+      $(document).on('click', '#verify-hcomp', function(){
+        App.populateAddress().then(r => App.handler = r[0]);
+        vaddr_sf = jQuery('#vaddr-comp-check').val()
+        App.handleviewVendorSafety(vaddr_sf);
       });
 
       $(document).on('click', '#additem', function(){
         App.populateAddress().then(r => App.handler = r[0]);
-        split_text = jQuery('#iname-stock').val().split(',');
-        item_name = split_text[0];
-        price = parseInt(split_text[1]);
-        stock = parseInt(split_text[2]);
+        item_name = jQuery('#iname').val();
+        price = parseInt(jQuery('#iprice').val());
+        stock = parseInt(jQuery('#stock').val());
         App.handleaddItem(item_name, price, stock);
       });
 
-  $(document).on('click', '#buyproduce', function(){
-     App.populateAddress().then(r => App.handler = r[0]);
-     App.handleregisterCustomer(jQuery('#custid').val());
-  });
+      $(document).on('click', '#viewhcomp', function(){
+        App.populateAddress().then(r => App.handler = r[0]);
+        cust_add = App.web3.givenProvider.selectedAddress;
+        console.log('hcomp_cust_add',cust_add);
+        App.handleviewVendorSafety(cust_add);
+      });
 
-  $(document).on('click', '#registercust', function(){
-     App.populateAddress().then(r => App.handler = r[0]);
-     split_text = jQuery('#vaddr-iname-nums').val().split(',');
-     vendor_address = split_text[0];
-     it_name = parseInt(split_text[1]);
-     nums = parseInt(split_text[2]);
-     App.handlebuyProduce(vendor_address, it_name, nums);
+      $(document).on('click', '#viewloccomp', function(){
+        App.populateAddress().then(r => App.handler = r[0]);
+        cust_add =App.web3.givenProvider.selectedAddress;
+        console.log('loc_comp_cust_add',cust_add);
+        App.handleviewVendorLocation(cust_add);
+      });
 
-  });
+      $(document).on('click', '#viewRatings', function(){
+        App.populateAddress().then(r => App.handler = r[0]);
+        cust_add = App.web3.givenProvider.selectedAddress;
+        console.log('hcomp_cust_add',cust_add);
+        App.handleviewVendorRating(cust_add);
+      });
 
-  $(document).on('click', '#viewloccomp', function(){
-    App.populateAddress().then(r => App.handler = r[0]);
-    vaddr_lc = jQuery('#vendoraddr-lc').val()
-    App.handleviewVendorLocation(vaddr_lc);
-  });
-},
 
-populateAddress : async function(){
-  // App.handler=App.web3.givenProvider.selectedAddress;
-    return await ethereum.request({method : 'eth_requestAccounts'});
-},  
+      $(document).on('click', '#buyproduce', function(){
+         App.populateAddress().then(r => App.handler = r[0]);
+         App.handleregisterCustomer(jQuery('#custid').val());
+      });
+
+      $(document).on('click', '#registercust', function(){
+         App.populateAddress().then(r => App.handler = r[0]);
+         split_text = jQuery('#vaddr-iname-nums').val().split(',');
+         vendor_address = split_text[0];
+         it_name = parseInt(split_text[1]);
+         nums = parseInt(split_text[2]);
+         App.handlebuyProduce(vendor_address, it_name, nums);
+
+      });
+
+      
+    },
+
+    populateAddress : async function(){
+      // App.handler=App.web3.givenProvider.selectedAddress;
+        return await ethereum.request({method : 'eth_requestAccounts'});
+    },  
  
- handleregisterVendor:function(address, l_comp, s_comp){
-      var option={from:App.handler} 
-      // console.log(l_comp, s_comp);
-      App.contracts.Farmville.methods.registerVendor(address, l_comp, s_comp)
-      .send(option)
-      .on('receipt',(receipt)=>{
-        if(receipt.status){
-          toastr.success("Vendor "+ address + "is added");
-      }})
-    },
+    handleregisterVendor:function(name, address, l_comp, s_comp){
+        var option={from:App.handler} 
+        console.log(name, address, l_comp, s_comp);
+        App.contracts.Farmville.methods.registerVendor(address, l_comp, s_comp)
+        .send(option)
+        .on('receipt',(receipt)=>{
+          if(receipt.status){
+            toastr.success("Vendor "+ name + "is added");
+        }})
+      },
 
-  handleaddItem:function(item_name, price, stock){
-      var option={from:App.handler} 
-      console.log(item_name, price, stock);
-      App.contracts.Farmville.methods.addItem(item_name, price, stock)
-      .send(option)
-      .on('receipt',(receipt)=>{
-        if(receipt.status){
-          toastr.success("Vendor "+ address + "is added");
-      }})
-    },
+    handleaddItem:function(item_name, price, stock){
+        var option={from:App.handler} 
+        console.log(item_name, price, stock);
+        App.contracts.Farmville.methods.addItem(item_name, price, stock)
+        .send(option)
+        .on('receipt',(receipt)=>{
+          if(receipt.status){
+            toastr.success("Vendor "+ address + "is added");
+        }})
+      },
 
-  handleregisterCustomer:function(cust_name){
-      var option={from:App.handler} 
-      console.log(item_name, price, stock);
-      App.contracts.Farmville.methods.registerCustomer(cust_name)
-      .send(option)
-      .on('receipt',(receipt)=>{
-        if(receipt.status){
-          toastr.success("Customer "+ cust_name + "is added");
-      }})
-    },
+    handleregisterCustomer:function(cust_name){
+        var option={from:App.handler} 
+        console.log(item_name, price, stock);
+        App.contracts.Farmville.methods.registerCustomer(cust_name)
+        .send(option)
+        .on('receipt',(receipt)=>{
+          if(receipt.status){
+            toastr.success("Customer "+ cust_name + "is added");
+        }})
+      },
 
-  handlebuyProduce:function(vendor_address, it_name, nums){
-      var option={from:App.handler} 
-      console.log(item_name, price, stock);
-      App.contracts.Farmville.methods.buyProduce(vendor_address, it_name, nums)
-      .send(option)
-      .on('receipt',(receipt)=>{
-        if(receipt.status){
-          toastr.success("Successful");
-      }})
-    },
+    handlebuyProduce:function(vendor_address, it_name, nums){
+        var option={from:App.handler} 
+        console.log(item_name, price, stock);
+        App.contracts.Farmville.methods.buyProduce(vendor_address, it_name, nums)
+        .send(option)
+        .on('receipt',(receipt)=>{
+          if(receipt.status){
+            toastr.success("Successful");
+        }})
+      },
 
     handleviewVendorLocation:function(vendor_address){
       App.contracts.Farmville.methods.viewVendorLocation(vendor_address)
       .call()
       .then((r)=>{
-        jQuery('#counter_value').text(r)
-      })
-  },
+        jQuery('#lcomp_value').text(r)
+        })
+      },
+
+    handleviewVendorSafety:function(vendor_address){
+      App.contracts.Farmville.methods.viewVendorSafety(vendor_address)
+      .call()
+      .then((r)=>{
+        jQuery('#hcomp_value').text(r)
+        })
+    },
+
+    handleviewVendorRating:function(vendor_address){
+      App.contracts.Farmville.methods.viewVendorRating(vendor_address)
+      .call()
+      .then((r)=>{
+        jQuery('#vendor_rating').text(r)
+        })
+    },
 
   abi:[
   {
