@@ -14,42 +14,40 @@
       <div class='container'>
         <div class="text-center">
           <h1>Buffalo Farmer's Marketplace</h1>      
-          <h2>For Chairperson</h2>      
+          <h2>For Vendors</h2>      
           <div>
             <img src="css/southbuffalo.jpg" alt="Top View" width="790" height="auto"> 
           </div>
         </div>
         <div>
           <br>
-          <h3>Register vendor</h3>
+          <h3>Add a new item to your stock!</h3>
           <div class="form-group">
             <label class="sr-only">Name</label>
-            <input type="text" id="vendoraddr" placeholder="Enter Vender Address">
-            <p>Is this vendor compliant with health and saftey regulations?</p>
-            <input type="radio" id="h-comp-yes" name="h_comp" value="true">
-            <label for="h-comp-yes">Yes</label> 
-            <input type="radio" id="h-comp-no" name="h_comp" value="false">
-            <label for="h-comp-no">No</label>
-            <p>Is this vendor compliant with location guidlines? (Is the vendor located within Buffalo?)</p>
-            <input type="radio" id="l-comp-yes" name="l_comp" value="true">
-            <label for="l-comp-yes">Yes</label> 
-            <input type="radio" id="l-comp-no" name="l_comp" value="false">
-            <label for="l-comp-no">No</label> <br>
-            <button type="button" id="registervendor" class="btn btn-primary ">Register Vendor</button>
-          </div>
-
+            <input type="text" id="iname" placeholder="Item Name">
+            <br>
+            <input type="text" id="iprice" placeholder="Item Price">
+            <br>
+            <input type="text" id="stock" placeholder="How Many?">
+            <br>
+            <button type="button" id="additem"  class="btn btn-primary ">Add Item</button>
+        </div>
           <br>
-          <h3>Verify compliance for an existing vendor</h3>
+          <br>
+          <h3>Are you following regulations?</h3>
+          <br>
+          <h4>Check if you are compling with health and saftey regulations here </h4>
+          <button type="button" id="viewhcomp"  class="btn btn-primary ">Check</button>
+          <br>
+          <h4>Check if you are compling with location guidlines here </h4>
+          <button type="button" id="viewloccomp"  class="btn btn-primary ">Check</button>
+          <br>
+          <br>
+
           <div class="form-group">
-            <label class="sr-only">Name</label>
-            <input type="text" id="vaddr-comp-check" placeholder="Enter Vender Address">
-            <br>
-            <br>
-            <button type="button" id="verify-hcomp"  class="btn btn-primary ">Verify Health Compliance</button>
-            <br>
-            <br>
-            <button type="button" id="verify-loccomp"  class="btn btn-primary ">Verify Location Compliance</button>
-            
+            <h3>View Stats : </h3>
+            <button type="button" id="viewRatings"  class="btn btn-primary ">View Customer Avg. Ratings</button>
+  
           </div>
         </div>
 
