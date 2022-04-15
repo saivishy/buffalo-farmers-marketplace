@@ -4,7 +4,7 @@
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>For Vendor</title>
+      <title>For Customer</title>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -28,14 +28,60 @@
           <br>
           <h2><center>For Customers</center></h2>      
           <br>
-          
+          <div class= "text-center">
+            <h1>!!!!!!!!!DISPLAY VENDOR INFO HERE!!!!!!!!</h1>
+          </div>
         </div>
+        <div>
+          <br>
+          <h3>Learn more about the vendor you want to support!</h3>
+          <br>
+          <h4>Is the vendor in town?</h4>
+          <input type="text" id="vname-custView" placeholder="Enter Vendor Name"><br><br>
+          <button type="button" id="viewloccomp-cust"  class="btn btn-primary ">Check</button>
+          <h1 id="lcomp_value"></h1>
+          <br>
+          <h4>Has the vendor displayed health and saftey certification?</h4>
+          <button type="button" id="viewhcomp-cust"  class="btn btn-primary ">Check</button>
+          <h1 id="hcomp_value"></h1>
+          <br>
+          <h3>Average Ratings for vendor: </h3>
+            <button type="button" id="viewRatings-cust"  class="btn btn-primary ">View Customer Avg. Ratings</button>
+            <h1 id="vendor_ratingCust avage"></h1>
+            <br>
+          <br>
           
-        </div>
+          <h3>Buy an item!</h3>
+          <div class="form-group">
+            <input type="text" id="vname-custBuy" placeholder="Vendor Address">
+            <br>
+            <input type="text" id="iname-custBuy" placeholder="Item Name">
+            <br>
+            <input type="text" id="stock-custBuy" placeholder="How Many?">
+            <br>
+            <button type="button" id="buyproduce"  class="btn btn-primary ">Initiate Transaction</button>
+          </div>
 
+          <h3>Support your vendor! Give him a rating!</h3>
+          <div class="form-group">
+            <input type="text" id="vname-custRating" placeholder="Vendor Address">
+            <br>
+            <label for="quantity">Rating (1-5) : </label>
+            <input type="number" id="rating" name="rating" min="1" max="5"> 
+            <br>
+            <button type="button" id="giverating"  class="btn btn-primary ">Give Rating</button>
+          </div>
+          
+          <!-- <div class="form-group">
+            <h3>View Stats : </h3>
+            <button type="button" id="viewRatings"  class="btn btn-primary ">View Customer Avg. Ratings</button>
+            <h1 id="vendor_rating"></h1>
+            <br>
+          </div> -->
+        </div>
         <!-- <div class='row col-lg-12 text-center'>             
-          <br> -->
-          <!-- <div class="col-lg-6 windowbox">
+          <br> 
+          <div class="col-lg-6 windowbox">
               <div class="form-group">
                   <label class="sr-only">Name</label>
                   <input type="text" id="vendoraddr" placeholder="Vendor Address">
@@ -83,17 +129,16 @@
                   <h1 id="counter_value"></h1>
               </div>
           </div>
-        </div> -->
+        </div> 
         <div> 
           <center>
-            <!-- <img src="css/marketplacePotrait.jpeg" alt="MarketPlace" width="400" height="550">
+            <img src="css/marketplacePotrait.jpeg" alt="MarketPlace" width="400" height="550">
             <img src="css/farmer.jpeg" alt="Farmer with produce" width="1080" height="380"> 
             <img src="css/marketplace.jpeg" alt="MarketPlacelandscape" width="1080" height="390"> 
-            <img src="css/maplesyrup.jpeg" alt="Maple syrup" width="auto" height="550">  -->
+            <img src="css/maplesyrup.jpeg" alt="Maple syrup" width="auto" height="550">
           </center>
-        </div>
-
-      </div>
+        </div> -->
+    </div>
 
 
     </body>
