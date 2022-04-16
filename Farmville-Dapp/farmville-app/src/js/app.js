@@ -1,8 +1,13 @@
 App = {
     web3: null,
+    awsConfig: {
+          "region": "us-east-2",
+          "endpoint": "http://dynamodb.us-east-2.amazonaws.com",
+          "accessKeyId": "AKIA6KYCE5RAV2M3VY4C", "secretAccessKey": "FeTEST8+PUFdaKP+j/FNsXth9hu4XMJfXHqFKe6w"
+      },
     contracts: {},
     address:'0x3dB3f30259827b745614e380EFd63CE853DEc558',
-    network_id:3, // 5777 for local
+    network_id:3,
     handler:null,
     value:1000000000000000000,
     index:0,
@@ -19,6 +24,7 @@ App = {
         App.web3 = new Web3(App.url);
       }
       ethereum.enable();  
+
       return App.initContract();  
     },
 
@@ -95,6 +101,12 @@ App = {
 
       });
 
+      $(document).on('click', '#viewloccomp-cust', function(){
+        App.populateAddress().then(r => App.handler = r[0]);
+        vendor_name = jQuery('#vname-custView').val();
+        App.handleviewVendorLocation(vendor_name);
+      });
+
       
     },
 
@@ -112,6 +124,8 @@ App = {
           if(receipt.status){
             toastr.success("Vendor "+ name + "is added");
         }})
+
+
       },
 
     handleaddItem:function(item_name, price, stock){
@@ -124,37 +138,92 @@ App = {
             toastr.success("Vendor "+ address + "is added");
         }})
 
-        var vendor_tuple = [item_name, price, stock];
 
         // localStorage.removeItem('vendor_info.json');
         
         vendor_address = App.web3.givenProvider.selectedAddress;
-        // console.log(localStorage.getItem('vendor_info.json'));
-        if (localStorage.getItem('vendor_info.json') === null) {
-          vendor_data = {};
-          vendor_data[vendor_address] = [vendor_tuple];
-          localStorage.setItem('vendor_info.json', JSON.stringify(vendor_data));
+
+        var vendor_dict = {'item_name':item_name,'price':price, 'stock':stock};
+
+        AWS.config.update(App.awsConfig);
+
+        let docClient = new AWS.DynamoDB.DocumentClient();
+
+        var params = {
+              TableName: "Vendor_Info",
+              Key: {
+                  "address": vendor_address
+              }
+          };
+        docClient.get(params, function (err, data) {
+            output = JSON.stringify(data, null, 2);
+            console.log('output',output);
+          
+
+        if(output == 'null' ){
+          var params = {
+          TableName: "Vendor_Info",
+          Item:  {'address':vendor_address, 'items':[vendor_dict]}
+          };
+          console.log(params)
+         docClient.put(params, function (err, data) {
+
+        if (err) {
+            console.log("users::save::error - " + JSON.stringify(err, null, 2));                      
+        } else {
+            console.log("users::save::success" );                      
         }
+    });
+
+          }
         else{
-          vendor_data = JSON.parse(localStorage.getItem('vendor_info.json'));
-          // console.log('vendor_data',vendor_data);
-          if( vendor_address in vendor_data){
-            temp_info = vendor_data[vendor_address];
-            console.log('temp_info',temp_info);
-            temp_info.push(vendor_tuple);
-            vendor_data[vendor_address] = temp_info;
-          }
-          else{
-            vendor_data[vendor_address] = [vendor_tuple];
+          var params = {
+          TableName: "Vendor_Info",
+          Key: { "address": vendor_address },
+          UpdateExpression: "SET #attrName = list_append(#attrName, :attrValue)",
+          ExpressionAttributeNames : {
+            "#attrName" : "items"
+          },
+          ExpressionAttributeValues : {
+            ":attrValue" : [vendor_dict]
+          },
+          ReturnValues: "UPDATED_NEW"
+
+          };
+          docClient.update(params, function (err, data) {});
+
+
           }
 
-          localStorage.setItem('vendor_info.json', JSON.stringify(vendor_data));
-          }
+          })
+        },
+
+        // console.log(localStorage.getItem('vendor_info.json'));
+        // if (localStorage.getItem('vendor_info.json') === null) {
+        //   vendor_data = {};
+        //   vendor_data[vendor_address] = [vendor_tuple];
+        //   localStorage.setItem('vendor_info.json', JSON.stringify(vendor_data));
+        // }
+        // else{
+        //   vendor_data = JSON.parse(localStorage.getItem('vendor_info.json'));
+        //   // console.log('vendor_data',vendor_data);
+        //   if( vendor_address in vendor_data){
+        //     temp_info = vendor_data[vendor_address];
+        //     console.log('temp_info',temp_info);
+        //     temp_info.push(vendor_tuple);
+        //     vendor_data[vendor_address] = temp_info;
+        //   }
+        //   else{
+        //     vendor_data[vendor_address] = [vendor_tuple];
+        //   }
+
+        //   localStorage.setItem('vendor_info.json', JSON.stringify(vendor_data));
+        //   }
         
-        console.log(localStorage.getItem('vendor_info.json'));
+        // console.log(localStorage.getItem('vendor_info.json'));
 
         
-      },
+      // },
 
     handleregisterCustomer:function(cust_name){
         var option={from:App.handler} 
