@@ -1,7 +1,7 @@
 App = {
     web3: null,
     contracts: {},
-    address:'0x3b3e343604384011b65206db39aF01888FDf9FCb',
+    address:'0x3dB3f30259827b745614e380EFd63CE853DEc558',
     network_id:3, // 5777 for local
     handler:null,
     value:1000000000000000000,
@@ -116,13 +116,44 @@ App = {
 
     handleaddItem:function(item_name, price, stock){
         var option={from:App.handler} 
-        console.log(item_name, price, stock);
+        // console.log(item_name, price, stock);
         App.contracts.Farmville.methods.addItem(item_name, price, stock)
         .send(option)
         .on('receipt',(receipt)=>{
           if(receipt.status){
             toastr.success("Vendor "+ address + "is added");
         }})
+
+        var vendor_tuple = [item_name, price, stock];
+
+        // localStorage.removeItem('vendor_info.json');
+        
+        vendor_address = App.web3.givenProvider.selectedAddress;
+        // console.log(localStorage.getItem('vendor_info.json'));
+        if (localStorage.getItem('vendor_info.json') === null) {
+          vendor_data = {};
+          vendor_data[vendor_address] = [vendor_tuple];
+          localStorage.setItem('vendor_info.json', JSON.stringify(vendor_data));
+        }
+        else{
+          vendor_data = JSON.parse(localStorage.getItem('vendor_info.json'));
+          // console.log('vendor_data',vendor_data);
+          if( vendor_address in vendor_data){
+            temp_info = vendor_data[vendor_address];
+            console.log('temp_info',temp_info);
+            temp_info.push(vendor_tuple);
+            vendor_data[vendor_address] = temp_info;
+          }
+          else{
+            vendor_data[vendor_address] = [vendor_tuple];
+          }
+
+          localStorage.setItem('vendor_info.json', JSON.stringify(vendor_data));
+          }
+        
+        console.log(localStorage.getItem('vendor_info.json'));
+
+        
       },
 
     handleregisterCustomer:function(cust_name){
