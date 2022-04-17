@@ -132,12 +132,13 @@ App = {
         .send(option)
         .on('receipt',(receipt)=>{
           if(receipt.status){
-            toastr.success("Vendor "+ address + "is added");
+            toastr.success("Item" + item_name + "sucessfully added");
           }
         })
 
         // localStorage.removeItem('vendor_info.json');
-        
+       
+        // "working" code start
         vendor_address = App.web3.givenProvider.selectedAddress;
 
         var vendor_dict = {'item_name':item_name,'price':price, 'stock':stock};
@@ -189,6 +190,8 @@ App = {
           docClient.update(params, function (err, data) {});
         }
         })
+
+        // "working" code end 
       },
 
         // console.log(localStorage.getItem('vendor_info.json'));
