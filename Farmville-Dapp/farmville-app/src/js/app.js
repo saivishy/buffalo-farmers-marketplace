@@ -6,7 +6,7 @@ App = {
           "accessKeyId": "AKIA6KYCE5RAV2M3VY4C", "secretAccessKey": "FeTEST8+PUFdaKP+j/FNsXth9hu4XMJfXHqFKe6w"
       },
     contracts: {},
-    address:'0x3dB3f30259827b745614e380EFd63CE853DEc558',
+    address:'0x7BcAC1626291b6aaAf3bCCbCC7ac9AE17Dc81230',
     network_id:3,
     handler:null,
     value:1000000000000000000,
@@ -47,13 +47,13 @@ App = {
       $(document).on('click', '#verify-loccomp', function(){
         App.populateAddress().then(r => App.handler = r[0]);
         vaddr_lc = jQuery('#vaddr-comp-check').val()
-        App.handleviewVendorLocation(vaddr_lc);
+        App.handleupdateLocComp(vaddr_lc);
       });
 
       $(document).on('click', '#verify-hcomp', function(){
         App.populateAddress().then(r => App.handler = r[0]);
         vaddr_sf = jQuery('#vaddr-comp-check').val()
-        App.handleviewVendorSafety(vaddr_sf);
+        App.handleupdateHealthComplaince(vaddr_sf);
       });
 
       $(document).on('click', '#additem', function(){
@@ -105,9 +105,7 @@ App = {
         App.populateAddress().then(r => App.handler = r[0]);
         vendor_name = jQuery('#vname-custView').val();
         App.handleviewVendorLocation(vendor_name);
-      });
-
-      
+      });      
     },
 
     populateAddress : async function(){
@@ -123,10 +121,9 @@ App = {
         .on('receipt',(receipt)=>{
           if(receipt.status){
             toastr.success("Vendor "+ name + "is added");
-        }})
-
-
-      },
+        }
+      })
+    },
 
     handleaddItem:function(item_name, price, stock){
         var option={from:App.handler} 
@@ -136,8 +133,8 @@ App = {
         .on('receipt',(receipt)=>{
           if(receipt.status){
             toastr.success("Vendor "+ address + "is added");
-        }})
-
+          }
+        })
 
         // localStorage.removeItem('vendor_info.json');
         
@@ -162,20 +159,19 @@ App = {
 
         if(output == 'null' ){
           var params = {
-          TableName: "Vendor_Info",
-          Item:  {'address':vendor_address, 'items':[vendor_dict]}
-          };
-          console.log(params)
+            TableName: "Vendor_Info",
+            Item:  {'address':vendor_address, 'items':[vendor_dict]}
+            };
+         console.log(params)
          docClient.put(params, function (err, data) {
-
-        if (err) {
-            console.log("users::save::error - " + JSON.stringify(err, null, 2));                      
-        } else {
-            console.log("users::save::success" );                      
-        }
-    });
-
+          if (err) {
+              console.log("users::save::error - " + JSON.stringify(err, null, 2));                      
+          } else {
+              console.log("users::save::success" );                      
           }
+        }
+        );
+        }
         else{
           var params = {
           TableName: "Vendor_Info",
@@ -191,12 +187,9 @@ App = {
 
           };
           docClient.update(params, function (err, data) {});
-
-
-          }
-
-          })
-        },
+        }
+        })
+      },
 
         // console.log(localStorage.getItem('vendor_info.json'));
         // if (localStorage.getItem('vendor_info.json') === null) {
@@ -233,8 +226,9 @@ App = {
         .on('receipt',(receipt)=>{
           if(receipt.status){
             toastr.success("Customer "+ cust_name + "is added");
-        }})
-      },
+        }
+      })
+    },
 
     handlebuyProduce:function(vendor_address, it_name, nums){
         var option={from:App.handler} 
@@ -244,16 +238,17 @@ App = {
         .on('receipt',(receipt)=>{
           if(receipt.status){
             toastr.success("Successful");
-        }})
-      },
+        }
+      })
+    },
 
     handleviewVendorLocation:function(vendor_address){
       App.contracts.Farmville.methods.viewVendorLocation(vendor_address)
       .call()
       .then((r)=>{
         jQuery('#lcomp_value').text(r)
-        })
-      },
+      })
+    },
 
     handleviewVendorSafety:function(vendor_address){
       App.contracts.Farmville.methods.viewVendorSafety(vendor_address)
@@ -271,6 +266,27 @@ App = {
         })
     },
 
+    handleupdateHealthComplaince:function(vendor_address){
+      var option={from:App.handler} 
+      App.contracts.Farmville.methods.updateHealthComplaince(vendor_address,"true")
+      .send(option)
+      .on('receipt',(receipt)=>{
+        if(receipt.status){
+          toastr.success("Successfully verified health complaince for vendor.");
+        }
+      })
+    },
+
+    handleupdateLocComp:function(vendor_address){
+      var option={from:App.handler} 
+      App.contracts.Farmville.methods.updateLocComp(vendor_address,"true")
+      .send(option)
+      .on('receipt',(receipt)=>{
+        if(receipt.status){
+          toastr.success("Successfully verified location complaince for vendor.");
+        }
+      })
+    },
   abi:[
   {
     "inputs": [
