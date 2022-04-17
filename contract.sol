@@ -58,6 +58,11 @@ contract Farmville {
         require(vendors[msg.sender].member);
         _;
     }
+
+    modifier checkBalance(uint num){
+        require(msg.value>=num, 'Not enough money given to buy');
+        _;
+    }
     constructor() public {
         chairperson = msg.sender;
         state = Phase.Regs;
@@ -84,7 +89,6 @@ contract Farmville {
 
     function addItem(string memory item_name, uint price, uint stock) locComp healthComp isMember public{
         itemInfo memory temp_item;
-        // temp_item.name = item_name;
         temp_item.price = price;
         temp_item.stock = stock;
         vendors[msg.sender].items[item_name] = temp_item;
@@ -106,14 +110,15 @@ contract Farmville {
         customers[msg.sender].name = cust_name;
     }
     
-    function buyProduce(address vendor, string memory item_name , uint nums) validPhase(Phase.Buy) public payable{
+    function buyProduce(address payable vendor, string memory item_name , uint nums) validPhase(Phase.Buy) checkBalance(vendors[vendor].items[item_name].price * nums) public payable{
         if((vendors[vendor].safety_comp == false) || (nums>vendors[vendor].items[item_name].stock)) {revert();}
         uint amt;
+        vendors[vendor].items[item_name].stock = vendors[vendor].items[item_name].stock - nums;
         amt = vendors[vendor].items[item_name].price * nums;
         
         vendors[vendor].wal_balance+=amt;
-
-        msg.sender.transfer(amt);
+        address payable vendor_address = vendor;
+        vendor_address.transfer(amt * (10 ** 18));
     }
 
 
@@ -123,6 +128,7 @@ contract Farmville {
     }
 
     function viewVendorRating(address vendor) view public returns(uint) {
+        if(vendors[vendor].rating_count == 0) {revert('Not enough ratings');}
         return uint(vendors[vendor].rating/vendors[vendor].rating_count);
     }
 
@@ -133,8 +139,12 @@ contract Farmville {
     function viewVendorSafety(address vendor) view public returns(bool) {
         return vendors[vendor].safety_comp;
     }
-    
+
     function viewPhase() view public returns(Phase) {
         return state;
+    }
+
+    function viewVendorMarketLocation(address vendor) view public returns(uint) {
+        return vendors[vendor].market_loc;
     }
 }
