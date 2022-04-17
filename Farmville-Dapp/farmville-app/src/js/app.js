@@ -6,7 +6,7 @@ App = {
         "accessKeyId": "AKIA6KYCE5RAV2M3VY4C", "secretAccessKey": "FeTEST8+PUFdaKP+j/FNsXth9hu4XMJfXHqFKe6w"
     },
   contracts: {},
-  address:'0x7BcAC1626291b6aaAf3bCCbCC7ac9AE17Dc81230',
+  address:'0xd02c78caB0aecDD26FDfcE649C9D5d60dc9553D2',
   network_id:3,
   handler:null,
   value:1000000000000000000,
@@ -111,7 +111,13 @@ App = {
       App.populateAddress().then(r => App.handler = r[0]);
       vendor_name = jQuery('#vname-custView').val();
       App.handleviewVendorLocation(vendor_name);
-    });      
+    });
+    
+    $(document).on('click', '#changestate', function(){
+      App.populateAddress().then(r => App.handler = r[0]);
+      phase = JSON.parse($('input[name="phase"]:checked').val());
+      App.handlechangeState(phase);
+    });
   },
 
   populateAddress : async function(){
@@ -296,6 +302,18 @@ App = {
       }
     })
   },
+
+  handlechangeState:function(phase){
+    var option={from:App.handler} 
+    App.contracts.Farmville.methods.changeState(phase)
+    .send(option)
+    .on('receipt',(receipt)=>{
+      if(receipt.status){
+        toastr.success("Successfully changed state to" + phase);
+      }
+    })
+  },
+  
 abi:[
   {
     "inputs": [
