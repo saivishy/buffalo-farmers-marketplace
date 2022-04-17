@@ -133,4 +133,8 @@ contract Farmville {
     function viewVendorSafety(address vendor) view public returns(bool) {
         return vendors[vendor].safety_comp;
     }
+    
+    function viewPhase() view public returns(uint) {
+        return state;
+    }    
 }
