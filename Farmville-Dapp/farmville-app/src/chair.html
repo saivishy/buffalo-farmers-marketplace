@@ -61,7 +61,20 @@
             <button type="button" id="verify-loccomp"  class="btn btn-primary ">Verify Location Compliance</button>
             <h1 id="lcomp_value"></h1>
             <br>
-            
+          
+          <br>
+          <h3>Change State of Marketplace:</h3>
+          <h3>Current State : </h3>
+          <h3 id="state_value"></h3>
+          <div class="form-group">
+            <input type="radio" id="state-init" name="phase" value=0>
+            <label for="state-init">Pre-Registration</label> <br>
+            <input type="radio" id="state-reg" name="phase" value=1>
+            <label for="state-reg">Vendor Registration Period</label><br>
+            <input type="radio" id="state-buy" name="phase" value=2>
+            <label for="state-buy">Buying Season</label><br>
+            <button type="button" id="changestate" class="btn btn-primary ">Change State</button>
+            <br>
           </div>
         </div>
 
