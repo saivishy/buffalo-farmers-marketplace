@@ -30,6 +30,12 @@ App = {
 
     initContract: function() { 
       App.contracts.Farmville = new App.web3.eth.Contract(App.abi,App.address, {});
+      var option={from:App.handler} 
+      App.contracts.Farmville.methods.viewPhase()
+      .call()
+      .then((r)=>{
+        jQuery('#state_value').text(r)
+        })
       return App.bindEvents();
     },  
   
@@ -291,231 +297,244 @@ App = {
       })
     },
   abi:[
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "item_name",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "price",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "stock",
-        "type": "uint256"
-      }
-    ],
-    "name": "addItem",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "vendor",
-        "type": "address"
-      },
-      {
-        "internalType": "string",
-        "name": "item_name",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "nums",
-        "type": "uint256"
-      }
-    ],
-    "name": "buyProduce",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "enum Farmville.Phase",
-        "name": "x",
-        "type": "uint8"
-      }
-    ],
-    "name": "changeState",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "vendor",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "vendor_rating",
-        "type": "uint256"
-      }
-    ],
-    "name": "giveRating",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "cust_name",
-        "type": "string"
-      }
-    ],
-    "name": "registerCustomer",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "vendor",
-        "type": "address"
-      },
-      {
-        "internalType": "bool",
-        "name": "l_comp",
-        "type": "bool"
-      },
-      {
-        "internalType": "bool",
-        "name": "s_comp",
-        "type": "bool"
-      }
-    ],
-    "name": "registerVendor",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "vendor",
-        "type": "address"
-      },
-      {
-        "internalType": "bool",
-        "name": "s_comp",
-        "type": "bool"
-      }
-    ],
-    "name": "updateHealthComplaince",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "vendor",
-        "type": "address"
-      },
-      {
-        "internalType": "bool",
-        "name": "l_comp",
-        "type": "bool"
-      }
-    ],
-    "name": "updateLocComp",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "state",
-    "outputs": [
-      {
-        "internalType": "enum Farmville.Phase",
-        "name": "",
-        "type": "uint8"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "vendor",
-        "type": "address"
-      }
-    ],
-    "name": "viewVendorLocation",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "vendor",
-        "type": "address"
-      }
-    ],
-    "name": "viewVendorRating",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "vendor",
-        "type": "address"
-      }
-    ],
-    "name": "viewVendorSafety",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  }
-]
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "item_name",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "stock",
+          "type": "uint256"
+        }
+      ],
+      "name": "addItem",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "vendor",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "item_name",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "nums",
+          "type": "uint256"
+        }
+      ],
+      "name": "buyProduce",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "enum Farmville.Phase",
+          "name": "x",
+          "type": "uint8"
+        }
+      ],
+      "name": "changeState",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "vendor",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "vendor_rating",
+          "type": "uint256"
+        }
+      ],
+      "name": "giveRating",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "cust_name",
+          "type": "string"
+        }
+      ],
+      "name": "registerCustomer",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "vendor",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "l_comp",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "s_comp",
+          "type": "bool"
+        }
+      ],
+      "name": "registerVendor",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "vendor",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "s_comp",
+          "type": "bool"
+        }
+      ],
+      "name": "updateHealthComplaince",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "vendor",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "l_comp",
+          "type": "bool"
+        }
+      ],
+      "name": "updateLocComp",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "state",
+      "outputs": [
+        {
+          "internalType": "enum Farmville.Phase",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "viewPhase",
+      "outputs": [
+        {
+          "internalType": "enum Farmville.Phase",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "vendor",
+          "type": "address"
+        }
+      ],
+      "name": "viewVendorLocation",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "vendor",
+          "type": "address"
+        }
+      ],
+      "name": "viewVendorRating",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "vendor",
+          "type": "address"
+        }
+      ],
+      "name": "viewVendorSafety",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
 
 }
 
