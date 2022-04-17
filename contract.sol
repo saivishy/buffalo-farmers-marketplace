@@ -16,6 +16,7 @@ contract Farmville {
         bool member;
         uint wal_balance;
         uint rating;
+        uint rating_count;
         uint market_loc;
         bool safety_comp;
         bool loc_comp;
@@ -89,6 +90,10 @@ contract Farmville {
         vendors[msg.sender].items[item_name] = temp_item;
     }
 
+    function checkItem(string memory item_name, address vend) view public returns(uint) {
+        return vendors[vend].items[item_name].stock;
+    }
+
     function updateLocComp(address vendor, bool l_comp) onlyChair public{
         vendors[vendor].loc_comp = l_comp;
     }
@@ -113,11 +118,12 @@ contract Farmville {
 
 
     function giveRating(address vendor, uint vendor_rating) public payable{
-        vendors[vendor].rating = vendor_rating;
+        vendors[vendor].rating = vendors[vendor].rating + vendor_rating;
+        vendors[vendor].rating_count = vendors[vendor].rating_count + 1;
     }
 
     function viewVendorRating(address vendor) view public returns(uint) {
-        return vendors[vendor].rating;
+        return uint(vendors[vendor].rating/vendors[vendor].rating_count);
     }
 
     function viewVendorLocation(address vendor) view public returns(bool) {
