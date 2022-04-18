@@ -7,7 +7,6 @@ contract Farmville {
     uint vendors_count = 0;
 
     struct itemInfo {
-        // string name;
         uint price;
         uint stock;
         
