@@ -1,6 +1,10 @@
 //SPDX-License-Identifier: UNLICENSED
 
-pragma solidity >=0.4.22 <=0.6.0;
+pragma solidity ^0.6.0;
+
+interface ERC20MYN {
+   function transfer(address receiver, uint numTokens) external payable returns (bool);
+}
 
 contract Farmville {
   
@@ -117,7 +121,8 @@ contract Farmville {
         
         vendors[vendor].wal_balance+=amt;
         address payable vendor_address = vendor;
-        vendor_address.transfer(amt * (10 ** 18));
+        // vendor_address.transfer(amt * (10 ** 18));
+        ERC20MYN(vendor).transfer(vendor_address, amt);
     }
 
 
