@@ -13,7 +13,7 @@
   <body>
       <div class='container'>
         <div class="text-center">
-          <h1>Buffalo Farmer's Marketplace : </h1> 
+          <h1>Buffalo Farmer's Marketplace </h1> 
                 
           <div>
             <a href="index.html"><button type="button" class="btn btn-primary ">Home</button></a>
@@ -21,13 +21,38 @@
             <a href="vendor.html"><button type="button" class="btn btn-primary ">For Vendors</button></a>
             <br>
             <br>
-            <img src="css/southbuffalo.jpg" alt="Top View" width="790" height="auto"> 
+            <img src="css/chair.jpeg" alt="Top View" width="790" height="auto"> 
           </div>
         </div>
         <div>
           <br>
           <br>
-          <h2><center>For the Chair</center></h2>     
+          <div class="text-center">
+            <button type="button" id="set-ercaddr" class="btn btn-primary">Set ERC20 address</button>
+          </div>
+          <br>
+          <br>
+          
+          <div class="text-center">
+            <h3>Token Balance: </h3>
+            <h3 id="token_balance"></h3>
+          </div>
+          <br>
+          <h3>Give allowance for the MarketPlace to transact on your behalf!</h3>
+          <h5>Current allowance: </h5>
+          <h5  id="allowance-balance"></h5>
+          <input type="radio" id="approve" name="approve/inc/dec_allowance" value="approve">
+          <label for="approve-allowance">Approve Allowance</label> 
+          <input type="radio" id="inc-allowance" name="approve/inc/dec_allowance" value="increaseAllowance">
+          <label for="inc-allowance">Increase Allowance</label> 
+          <input type="radio" id="dec-allowance" name="approve/inc/dec_allowance" value="decreaseAllowance">
+          <label for="dec-allowance">Decrease Allowance</label>
+          <br>
+          <input type="text" id="token-allow" placeholder="Number of tokens">
+          <br>
+          <br>
+          <button type="button" id="allowance"  class="btn btn-primary ">Allow</button>
+          <br>
           <br>
           <h3>Register vendor</h3>
           <div class="form-group">
@@ -35,24 +60,24 @@
             <input type="text" id="vendorname" placeholder="Enter Vendor Name"><br><br>
             <label class="sr-only">Address</label>
             <input type="text" id="vendoraddr" placeholder="Enter Vendor Address">
-            <p>Is this vendor compliant with health and saftey regulations?</p>
+            <p>Is this vendor compliant with health and safety regulations?</p>
             <input type="radio" id="h-comp-yes" name="h_comp" value="true">
             <label for="h-comp-yes">Yes</label> 
             <input type="radio" id="h-comp-no" name="h_comp" value="false">
             <label for="h-comp-no">No</label>
-            <p>Is this vendor compliant with location guidlines? (Is the vendor located within Buffalo?)</p>
+            <p>Is this vendor compliant with location guidelines? (Is the vendor located within Buffalo?)</p>
             <input type="radio" id="l-comp-yes" name="l_comp" value="true">
             <label for="l-comp-yes">Yes</label> 
             <input type="radio" id="l-comp-no" name="l_comp" value="false">
             <label for="l-comp-no">No</label> <br>
             <button type="button" id="registervendor" class="btn btn-primary ">Register Vendor</button>
           </div>
-
+          
           <br>
           <h3>Verify compliance for an existing vendor</h3>
           <div class="form-group">
             <label class="sr-only">Name</label>
-            <input type="text" id="vaddr-comp-check" placeholder="Enter Vender Address">
+            <input type="text" id="vaddr-comp-check" placeholder="Enter Vendor Address">
             <br>
             <br>
             <button type="button" id="verify-hcomp"  class="btn btn-primary ">Verify Health Compliance</button>
@@ -61,81 +86,21 @@
             <button type="button" id="verify-loccomp"  class="btn btn-primary ">Verify Location Compliance</button>
             <h1 id="lcomp_value"></h1>
             <br>
-          
+          </div>
+
           <br>
           <h3>Change State of Marketplace:</h3>
           <h3>Current State : </h3>
           <h3 id="state_value"></h3>
           <div class="form-group">
-            <input type="radio" id="state-init" name="phase" value=1>
-            <label for="state-init">Pre-Registration</label> <br>
-            <input type="radio" id="state-reg" name="phase" value=2>
+            <input type="radio" id="state-reg" name="phase" value='1'>
             <label for="state-reg">Vendor Registration Period</label><br>
-            <input type="radio" id="state-buy" name="phase" value=3>
+            <input type="radio" id="state-buy" name="phase" value='2'>
             <label for="state-buy">Buying Season</label><br>
             <button type="button" id="changestate" class="btn btn-primary ">Change State</button>
             <br>
           </div>
-        </div>
 
-        <!-- <div class='row col-lg-12 text-center'>             
-          <br> -->
-          <!-- <div class="col-lg-6 windowbox">
-              <div class="form-group">
-                  <label class="sr-only">Name</label>
-                  <input type="text" id="vendoraddr" placeholder="Vendor Address">
-                  <br>
-                  <button type="button" id="registervendor" class="btn btn-primary ">Register Vendor</button>
-              </div>
-              <div class="form-group">
-                  <label class="sr-only">Email</label>
-                  <input type="text" id="iname-stock" placeholder="Item Name, Stock">
-                  <br>
-                  <button type="button" id="additem"  class="btn btn-primary ">Add Item</button>
-              </div>
-              
-              <div class="form-group">
-                <label class="sr-only">Email</label>
-                <input type="text" id="vaddr-iname-nums" placeholder="VendorAddr, Item, Nums">
-                <br>
-                <button type="button" id="buyproduce" class="btn btn-primary ">Buy Produce</button>
-              </div>
-
-              <div class="form-group">
-                <label class="sr-only">Email</label>
-                <input type="text" id="custid" placeholder="CustomerAddr">
-                <br>
-                <button type="button" id="registercust" class="btn btn-primary ">Register Customer</button>
-              </div>
-              
-              <div class="form-group">
-                <label class="sr-only">Email</label>
-                <input type="text" id="iname-stock" placeholder="Item Name, Stock">
-                <br>
-                <button type="button" id="additem"  class="btn btn-primary ">Add Item</button>
-              </div>
-              
-              <div class="form-group">
-                <label class="sr-only">Email</label>
-                <input type="text" id="vendoraddr-lc" placeholder="Vendor Address">
-                <br>
-                <button type="button" id="viewloccomp"  class="btn btn-primary ">Check Location Complaiance</button>
-              </div>
-          </div>
-          <div class="col-lg-6 windowbox">
-              <div class="form-group ">
-                  <button type="button" id="getCounter" class="btn btn-info mb-2">Get counter value</button>
-                  <h1 id="counter_value"></h1>
-              </div>
-          </div>
-        </div> -->
-        <div> 
-          <center>
-            <!-- <img src="css/marketplacePotrait.jpeg" alt="MarketPlace" width="400" height="550">
-            <img src="css/farmer.jpeg" alt="Farmer with produce" width="1080" height="380"> 
-            <img src="css/marketplace.jpeg" alt="MarketPlacelandscape" width="1080" height="390"> 
-            <img src="css/maplesyrup.jpeg" alt="Maple syrup" width="auto" height="550">  -->
-          </center>
         </div>
 
       </div>

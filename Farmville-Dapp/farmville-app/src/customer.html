@@ -20,21 +20,28 @@
             <a href="chair.html"><button type="button" class="btn btn-primary ">For the Chair</button></a>
             <br>
             <br>
-            <img src="css/southbuffalo.jpg" alt="Top View" width="790" height="auto"> 
+            <img src="css/cust.jpeg" alt="Top View" width="790" height="auto"> 
           </div>
         </div>
         <div class="text-center">
           <br>
-          <h2>For Customers</h2>      
           <br>
           <input type="text" id="cname" placeholder="Enter your name"><br><br>
           <button type="button" id="registercust"  class="btn btn-primary ">Register Yourself!</button>
           <br>
+          <br>
           <div class= "text-center">
-            <h1>!!!!!!!!!DISPLAY VENDOR INFO HERE!!!!!!!!</h1>
+            <button type="button" id="vendor-produce"  class="btn btn-primary ">Click to view Vendors and their produce</button>
+            <br>
+            <br>
           </div>
         </div>
+        <div style="background-color:lightblue;" id="msg"></div>
         <div>
+          <div class="text-center">
+            <h3>Token Balance: </h3>
+            <h3 id="token_balance"></h3>
+          </div>
           <br>
           <h3>Learn more about the vendor you want to support!</h3>
           <br>
@@ -43,7 +50,7 @@
           <button type="button" id="viewloccomp-cust"  class="btn btn-primary ">Check</button>
           <h1 id="lcomp_value"></h1>
           <br>
-          <h4>Has the vendor displayed health and saftey certification?</h4>
+          <h4>Has the vendor displayed health and safety certification?</h4>
           <button type="button" id="viewhcomp-cust"  class="btn btn-primary ">Check</button>
           <h1 id="hcomp_value"></h1>
           <br>
@@ -52,7 +59,41 @@
             <h1 id="vendor_rating"></h1>
             <br>
           <br>
+
+          <h3>Check the stock!</h3>
+            <input type="text" id="it_name-address" placeholder="Item_name, Vendor Address">
+            <br>
+            <button type="button" id="check-stock"  class="btn btn-primary ">Check Stock</button>
+            <br>
+            <h1 id="stock-value"></h1>
+            <br>
           
+          <h3>Exchange ether for Farm Tokens (1 Ether = 20 tokens)!</h3>
+            <input type="text" id="ether-token" placeholder="Number of tokens">
+            <br>
+            <button type="button" id="exchange_tokens"  class="btn btn-primary ">Exchange Tokens</button>
+            <br>
+            <br>
+          
+          <h3>Give allowance for the MarketPlace to transact on your behalf!</h3>
+          <h5>Current allowance: </h5>
+          <h5  id="allowance-balance"></h5>
+
+          <input type="radio" id="approve" name="approve/inc/dec_allowance" value="approve">
+          <label for="approve-allowance">Approve Allowance</label> 
+          <input type="radio" id="inc-allowance" name="approve/inc/dec_allowance" value="increaseAllowance">
+          <label for="inc-allowance">Increase Allowance</label> 
+          <input type="radio" id="dec-allowance" name="approve/inc/dec_allowance" value="decreaseAllowance">
+          <label for="dec-allowance">Decrease Allowance</label>
+          <br>
+          <input type="text" id="token-allow" placeholder="Number of tokens">
+          <br>
+          <button type="button" id="allowance"  class="btn btn-primary ">Approve</button>
+          <br>
+          <br>
+
+          
+
           <h3>Buy an item!</h3>
           <div class="form-group">
             <input type="text" id="vname-custBuy" placeholder="Vendor Address">
@@ -62,6 +103,12 @@
             <input type="text" id="stock-custBuy" placeholder="How Many?">
             <br>
             <button type="button" id="buyproduce"  class="btn btn-primary ">Initiate Transaction</button>
+            <br>
+            <br>
+            <button type="button" id="vendor-market-loc"  class="btn btn-primary ">View Vendor location in Market</button>
+            <br>
+            <h1 id="market-loc"></h1>
+            <br>
           </div>
 
           <h3>Support your vendor! Give him a rating!</h3>
@@ -74,74 +121,7 @@
             <button type="button" id="giverating"  class="btn btn-primary ">Give Rating</button>
           </div>
           
-          <!-- <div class="form-group">
-            <h3>View Stats : </h3>
-            <button type="button" id="viewRatings"  class="btn btn-primary ">View Customer Avg. Ratings</button>
-            <h1 id="vendor_rating"></h1>
-            <br>
-          </div> -->
         </div>
-        <!-- <div class='row col-lg-12 text-center'>             
-          <br> 
-          <div class="col-lg-6 windowbox">
-              <div class="form-group">
-                  <label class="sr-only">Name</label>
-                  <input type="text" id="vendoraddr" placeholder="Vendor Address">
-                  <br>
-                  <button type="button" id="registervendor" class="btn btn-primary ">Register Vendor</button>
-              </div>
-              <div class="form-group">
-                  <label class="sr-only">Email</label>
-                  <input type="text" id="iname-stock" placeholder="Item Name, Stock">
-                  <br>
-                  <button type="button" id="additem"  class="btn btn-primary ">Add Item</button>
-              </div>
-              
-              <div class="form-group">
-                <label class="sr-only">Email</label>
-                <input type="text" id="vaddr-iname-nums" placeholder="VendorAddr, Item, Nums">
-                <br>
-                <button type="button" id="buyproduce" class="btn btn-primary ">Buy Produce</button>
-              </div>
-
-              <div class="form-group">
-                <label class="sr-only">Email</label>
-                <input type="text" id="custid" placeholder="CustomerAddr">
-                <br>
-                <button type="button" id="registercust" class="btn btn-primary ">Register Customer</button>
-              </div>
-              
-              <div class="form-group">
-                <label class="sr-only">Email</label>
-                <input type="text" id="iname-stock" placeholder="Item Name, Stock">
-                <br>
-                <button type="button" id="additem"  class="btn btn-primary ">Add Item</button>
-              </div>
-              
-              <div class="form-group">
-                <label class="sr-only">Email</label>
-                <input type="text" id="vendoraddr-lc" placeholder="Vendor Address">
-                <br>
-                <button type="button" id="viewloccomp"  class="btn btn-primary ">Check Location Complaiance</button>
-              </div>
-          </div>
-          <div class="col-lg-6 windowbox">
-              <div class="form-group ">
-                  <button type="button" id="getCounter" class="btn btn-info mb-2">Get counter value</button>
-                  <h1 id="counter_value"></h1>
-              </div>
-          </div>
-        </div> 
-        <div> 
-          <center>
-            <img src="css/marketplacePotrait.jpeg" alt="MarketPlace" width="400" height="550">
-            <img src="css/farmer.jpeg" alt="Farmer with produce" width="1080" height="380"> 
-            <img src="css/marketplace.jpeg" alt="MarketPlacelandscape" width="1080" height="390"> 
-            <img src="css/maplesyrup.jpeg" alt="Maple syrup" width="auto" height="550">
-          </center>
-        </div> -->
-    </div>
-
 
     </body>
     <script  src="js/toastr.min.js"></script>

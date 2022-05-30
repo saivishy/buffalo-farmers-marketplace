@@ -7,6 +7,6 @@ app.get('/', function (req, res) {
 });
 
 app.listen(3010, function () {
-  console.log('Counter Dapp listening on port 3010!');
+  console.log('Buffalo Farmers Marketplace Dapp listening on port 3010!');
 });
 
